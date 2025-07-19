@@ -12,9 +12,8 @@ class RobotTest {
     fun testRobotHeading() {
         val robot = Robot(Heading.NORTH)
 
-        robot.turn(Movement.LEFT).let {
-            assertEquals(Heading.WEST, it.heading)
-        }
+        assertEquals(Heading.WEST, robot.turn(Movement.LEFT).heading)
+        assertEquals(Heading.SOUTH, robot.turn(Movement.RIGHT).turn(Movement.RIGHT).heading)
 
     }
 }
