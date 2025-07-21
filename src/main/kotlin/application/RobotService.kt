@@ -2,34 +2,22 @@ package com.mindfulbytes.application
 
 import com.mindfulbytes.domain.*
 
-class RobotService(val boundaryChecker: BoundaryChecker) {
+class RobotService(private val boundaryChecker: BoundaryChecker) {
 
     private val knownBoundaries = mutableSetOf<Coordinates>()
 
-    fun createRobot(heading: String, x: Int, y: Int): Result<Robot> {
-        val headingEnum = try {
-            Heading.valueOf(heading)
-        } catch (e: IllegalArgumentException) {
-            return Result.failure(InvalidHeadingException(heading))
-        }
-        return Result.success(Robot(headingEnum, Coordinates(x, y)))
-    }
+    fun createRobot(heading: String, x: Int, y: Int): Result<Robot> =
+        enumValues<Heading>().firstOrNull { it.name == heading }
+            ?.let { headingEnum -> Result.success(Robot(headingEnum, Coordinates(x, y))) }
+            ?: Result.failure(InvalidHeadingException(heading))
 
-    fun turnRobot(robot: Robot, turn: String): Result<Robot> {
-        val turnEnum = try {
-            Turn.valueOf(turn)
-        } catch (e: IllegalArgumentException) {
-            return Result.failure(InvalidTurnException(turn))
-        }
-        return Result.success(robot.turn(turnEnum))
-    }
+    fun turnRobot(robot: Robot, turn: String): Result<Robot> = enumValues<Turn>().firstOrNull { it.name == turn }
+        ?.let { turnEnum -> Result.success(robot.turn(turnEnum)) }
+        ?: Result.failure(InvalidTurnException(turn))
 
     fun moveRobot(robot: Robot, move: String): Result<Robot> {
-        val moveEnum = try {
-            Move.valueOf(move)
-        } catch (e: IllegalArgumentException) {
-            return Result.failure(InvalidMoveException(move))
-        }
+        val moveEnum =
+            enumValues<Move>().firstOrNull() { it.name == move } ?: return Result.failure(InvalidMoveException(move))
 
         val movedRobot = robot.move(moveEnum)
 
