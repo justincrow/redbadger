@@ -31,6 +31,7 @@ This project loosely follows the **ports and adaptors (hexagonal) architecture**
 - **Test Package:** Provides comprehensive test coverage for domain and application logic, supporting test-driven development.
 
 ## Assumptions
+Ad - Exception handling is minimal due to time constraints; the application assumes that inputs are valid, although use of `enum`s tries to keep the exceptions in known locations.
  - The ports and adaptors architecture is perhaps slightly overkill for this project, but I wanted to show how the application could be extended in the future.
  - I've used enums to represent the cardinal headings (N, S, E, W) for clarity and type safety, and to allow additional headings such as `NW`, `NE` etc
  - The same enum approach is used for the `Move` and `Turn` commands, so they can be extended in the future if needed.
