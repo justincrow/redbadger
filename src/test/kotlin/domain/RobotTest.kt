@@ -8,22 +8,22 @@ class RobotTest {
 
     @Test
     fun `should return new robot with correct heading after a turn`() {
-        val robot = Robot(Heading.NORTH, Coordinates(0, 0))
+        val robot = Robot(Heading.N, Coordinates(0, 0))
 
-        assertEquals(Heading.WEST, robot.turn(Turn.LEFT).heading)
-        assertEquals(Heading.SOUTH, robot.turn(Turn.RIGHT).turn(Turn.RIGHT).heading)
+        assertEquals(Heading.W, robot.turn(Turn.L).heading)
+        assertEquals(Heading.S, robot.turn(Turn.R).turn(Turn.R).heading)
 
     }
 
     @Test
     fun `should return new robot with correct coordinates after a movement`() {
-        val robot = Robot(Heading.NORTH, Coordinates(0, 0))
+        val robot = Robot(Heading.N, Coordinates(0, 0))
 
-        assertEquals(robot.move(Move.FORWARD).coordinates, Coordinates(x = 0, y = 1))
+        assertEquals(robot.move(Move.F).coordinates, Coordinates(x = 0, y = 1))
         assertEquals(
-            robot.move(Move.FORWARD)
-                .turn(Turn.RIGHT)
-                .move(Move.FORWARD)
+            robot.move(Move.F)
+                .turn(Turn.R)
+                .move(Move.F)
                 .coordinates, Coordinates(x = 1, y = 1))
 
     }

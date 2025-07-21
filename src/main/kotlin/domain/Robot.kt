@@ -1,56 +1,50 @@
 package com.mindfulbytes.domain
 
 data class Robot(val heading: Heading, val coordinates: Coordinates) {
-    fun turn(turn: Turn): Robot {
-        return when (turn) {
-            Turn.LEFT -> when (heading) {
-                Heading.NORTH -> copy(heading = Heading.WEST)
-                Heading.SOUTH -> copy(heading = Heading.EAST)
-                Heading.EAST -> copy(heading = Heading.NORTH)
-                Heading.WEST -> copy(heading = Heading.SOUTH)
-            }
-            Turn.RIGHT -> when (heading) {
-                Heading.NORTH -> copy(heading = Heading.EAST)
-                Heading.SOUTH -> copy(heading = Heading.WEST)
-                Heading.EAST -> copy(heading = Heading.SOUTH)
-                Heading.WEST -> copy(heading = Heading.NORTH)
-            }
+    fun turn(turn: Turn): Robot = when (turn) {
+        Turn.L -> when (heading) {
+            Heading.N -> copy(heading = Heading.W)
+            Heading.W -> copy(heading = Heading.S)
+            Heading.S -> copy(heading = Heading.E)
+            Heading.E -> copy(heading = Heading.N)
+        }
+        Turn.R -> when (heading) {
+            Heading.N -> copy(heading = Heading.E)
+            Heading.E -> copy(heading = Heading.S)
+            Heading.S -> copy(heading = Heading.W)
+            Heading.W -> copy(heading = Heading.N)
         }
     }
 
-    fun move(move: Move): Robot {
-        return when (move) {
-            Move.FORWARD -> {
-                copy(coordinates = coordinates.move(heading))
-            }
+    fun move(move: Move): Robot = when (move) {
+        Move.F -> {
+            copy(coordinates = coordinates.move(heading))
         }
     }
 }
 
 data class Coordinates(val x: Int, val y: Int) {
-    fun move(heading: Heading): Coordinates {
-        return when (heading) {
-            Heading.NORTH -> copy(y = y + 1)
-            Heading.SOUTH -> copy(y = y - 1)
-            Heading.EAST -> copy(x = x + 1)
-            Heading.WEST -> copy(x = x - 1)
-        }
+    fun move(heading: Heading): Coordinates = when (heading) {
+        Heading.N -> copy(y = y + 1)
+        Heading.S -> copy(y = y - 1)
+        Heading.E -> copy(x = x + 1)
+        Heading.W -> copy(x = x - 1)
     }
 }
 
 enum class Heading {
-    NORTH,
-    SOUTH,
-    EAST,
-    WEST,
+    N,
+    S,
+    E,
+    W,
 }
 
 enum class Turn {
-    LEFT,
-    RIGHT,
+    L,
+    R,
 }
 
 enum class Move {
-    FORWARD,
+    F,
 }
 

@@ -4,6 +4,8 @@ import com.mindfulbytes.domain.*
 
 class RobotService(val boundaryChecker: BoundaryChecker) {
 
+    private val knownBoundaries = mutableSetOf<Coordinates>()
+
     fun createRobot(heading: String, x: Int, y: Int): Result<Robot> {
         val headingEnum = try {
             Heading.valueOf(heading)
@@ -28,10 +30,18 @@ class RobotService(val boundaryChecker: BoundaryChecker) {
         } catch (e: IllegalArgumentException) {
             return Result.failure(InvalidMoveException(move))
         }
+
         val movedRobot = robot.move(moveEnum)
-        return if (boundaryChecker.coordinatesValid(movedRobot.coordinates))
+
+        return if (boundaryChecker.coordinatesValid(movedRobot.coordinates)) {
             Result.success(movedRobot)
-        else Result.failure(RobotLostException("${movedRobot.coordinates.x},${movedRobot.coordinates.y}"))
+        } else {
+            if (knownBoundaries.add(movedRobot.coordinates)) {
+                Result.failure(RobotLostException(robot))
+            } else {
+                Result.success(robot)
+            }
+        }
     }
 
 

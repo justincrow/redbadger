@@ -13,6 +13,8 @@ class BoundaryCheckerTest {
         val underTest = BoundaryChecker(Coordinates(3, 5))
 
         assertEquals(true, underTest.coordinatesValid(Coordinates(0,0)))
+        assertEquals(true, underTest.coordinatesValid(Coordinates(3,5)))
         assertEquals(false, underTest.coordinatesValid(Coordinates(3,6)))
+        assertEquals(false, underTest.coordinatesValid(Coordinates(4,5)))
     }
 }
